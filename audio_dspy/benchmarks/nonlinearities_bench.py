@@ -1,4 +1,4 @@
-import audio_dspy as adspy
+import audio_dspy as adsp
 import numpy as np
 
 class NonlinearityTimeSuite:
@@ -10,4 +10,4 @@ class NonlinearityTimeSuite:
 
     def time_soft_clipper_3(self):
         for n in self.numbers:
-            adspy.nonlinearities.soft_clipper (n, 3)
+            adsp.nonlinearities.soft_clipper (n, 3)
