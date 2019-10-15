@@ -207,3 +207,26 @@ def design_lowshelf (fc, Q, gain, fs):
     a[1] = -2.0 * ((A-1.0) + ((A+1.0)*wC)) / a0
     a[2] = ((A+1.0) + ((A-1.0)*wC)-(beta*wS)) / a0
     return b, a
+
+def bilinear_biquad (b_s, a_s, fs, matchPole=False):
+    # find freq to match with bilinear transform
+    T = 1.0 / fs
+    c = 2/T
+    if (matchPole):
+        wc = np.imag (np.roots (a_s))[0]
+        c = wc / np.tan (wc * T / 2.0)
+    c_2 = c*c
+
+    # bilinear
+    a = np.zeros (3)
+    b = np.zeros (3)
+    a0 = a_s[0] * c_2 + a_s[1] * c + a_s[2]
+
+    a[0] = a0 / a0
+    a[1] = 2.0 * (a_s[2] - a_s[0] * c_2) / a0
+    a[2] = (a_s[0] * c_2 - a_s[1] * c + a_s[2]) / a0
+    b[0] = (b_s[0] * c_2 + b_s[1] * c + b_s[2]) / a0
+    b[1] = 2.0 * (b_s[2] - b_s[0] * c_2) / a0
+    b[2] = (b_s[0] * c_2 - b_s[1] * c + b_s[2]) / a0
+
+    return b, a

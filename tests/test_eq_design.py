@@ -38,3 +38,14 @@ class TestEQ(TestCase):
     def test_eq_bell(self):
         b, a = adsp.design_bell (_fs_/2, 0.707, 1, _fs_)
         checkCoefs (self, b, a, [1, 2, 1], [1, 2, 1])
+
+    def test_bilinear_biquad(self):
+        b_s = np.array ([0, 0, 0.00111784])
+        a_s = np.array ([3.015e-7, 4.721e-4, 4e3])
+
+        poleFreq = np.imag (np.roots (a_s))[0] / (2*np.pi)
+
+        b, a = adsp.bilinear_biquad (b_s, a_s, _fs_, matchPole=True)
+        dpoleFreq = np.angle (np.roots (a))[0] / (2 * np.pi) * _fs_
+
+        self.assertTrue (np.abs (poleFreq - dpoleFreq) < poleFreq*_tolerance_, 'Pole not matched correctly! Expected: {}, Actual: {}'.format (poleFreq, dpoleFreq))
