@@ -28,10 +28,26 @@ audio\_dspy.plotting module
    :undoc-members:
    :show-inheritance:
 
+audio\_dspy.prony module
+------------------------
+
+.. automodule:: audio_dspy.prony
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 audio\_dspy.sweeps module
 -------------------------
 
 .. automodule:: audio_dspy.sweeps
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+audio\_dspy.transfer\_function\_tools module
+--------------------------------------------
+
+.. automodule:: audio_dspy.transfer_function_tools
    :members:
    :undoc-members:
    :show-inheritance:
