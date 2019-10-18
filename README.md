@@ -1,5 +1,7 @@
 # Audio DSPy
 
+[![CircleCI](https://circleci.com/gh/jatinchowdhury18/audio_dspy.svg?style=svg)](https://circleci.com/gh/jatinchowdhury18/audio_dspy)
+
 audio_dspy is a Python package for audio signal processing tools.
 
 Current tools include:

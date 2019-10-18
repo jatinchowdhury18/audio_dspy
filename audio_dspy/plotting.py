@@ -3,7 +3,7 @@ import scipy.signal as signal
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 
-def plot_magnitude_response (b, a, fs=2*np.pi):
+def plot_magnitude_response (b, a, worN=512, fs=2*np.pi):
     """Plots the magnitude response of a digital filter in dB
 
     Parameters
@@ -12,16 +12,19 @@ def plot_magnitude_response (b, a, fs=2*np.pi):
         numerator (feed-forward) coefficients of the filter
     a: ndarray
         denominator (feed-backward) coefficients of the filter
+    worN: {None, int, array_like}, optional
+        If a single integer, then compute at that many frequencies (default is N=512).
+        If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.freqz (b, a, fs=fs)
+    w, H = signal.freqz (b, a, worN=worN, fs=fs)
     plt.semilogx (w, 20 * np.log10 (np.abs (H)))
     plt.gca().xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     plt.ylabel ('Magnitude [dB]')
     plt.xlabel ('Frequency [Hz]')
 
-def plot_phase_response (b, a, fs=2*np.pi):
+def plot_phase_response (b, a, worN=512, fs=2*np.pi):
     """Plots the phase response of a digital filter in radians
 
     Parameters
@@ -30,10 +33,13 @@ def plot_phase_response (b, a, fs=2*np.pi):
         numerator (feed-forward) coefficients of the filter
     a: ndarray
         denominator (feed-backward) coefficients of the filter
+    worN: {None, int, array_like}, optional
+        If a single integer, then compute at that many frequencies (default is N=512).
+        If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.freqz (b, a, fs=fs)
+    w, H = signal.freqz (b, a, worN=worN, fs=fs)
     plt.semilogx (w, np.unwrap (np.angle (H)))
     plt.gca().xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
     plt.ylabel ('Phase [rad]')
