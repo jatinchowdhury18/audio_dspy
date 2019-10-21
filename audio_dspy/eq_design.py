@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.signal as signal
 
 def design_bell (fc, Q, gain, fs):
     """Calculates filter coefficients for a bell filter.
@@ -39,6 +40,79 @@ def design_bell (fc, Q, gain, fs):
 
     return np.asarray (b), np.asarray(a)
 
+def add_to_sos (sos, b, a):
+    """Add a new filter to a set of second order sections
+
+    Parameters
+    ----------
+    sos : array-like
+        Set of second order sections
+    b : array-like
+        feed-forward coefficients of filter to add
+    a : array-like
+        feed-back coefficients of filter to add
+    
+    Returns
+    -------
+    sos : array-like
+        New set of second order sections
+    """
+    z, p, k = signal.tf2zpk (b, a)
+    if (np.size (sos) == 0):
+        sos = signal.zpk2sos (z, p, k)
+    else:
+        sos = np.append (sos, signal.zpk2sos (z, p, k), axis=0)
+    return sos
+
+def butter_Qs (n):
+    """Generate Q-values for an n-th order Butterworth filter
+
+    Parameters:
+    n : int
+        order of filter to generate Q values for
+
+    Returns
+    -------
+    q_values : array-like
+        Set of Q-values for this order filter
+    """
+    k = 1
+    lim = int (n / 2)
+    Qs = []
+
+    while k <= lim:
+        b = -2 *  np.cos ((2*k + n - 1) * np.pi / (2*n))
+        Qs.append (1/b)
+        k += 1
+
+    return np.flip (np.asarray (Qs))
+
+def design_LPF1 (fc, fs):
+    """Calculates filter coefficients for a 1st-order lowpass filter
+
+    Parameters
+    ----------
+    fc : float
+        Cutoff frequency of the filter in Hz
+    fs : float
+        Sample rate in Hz
+
+    Returns
+    -------
+    b : ndarray
+        "b" (feedforward) coefficients of the filter
+    a : ndarray
+        "a" (feedback) coefficients of the filter
+    """
+    wc = 2 * np.pi * fc / fs
+    c = 1.0 / np.tan (wc / 2.0)
+    a0 = c + 1.0
+
+    b = [1 / a0, 1.0 / a0]
+    a = [1, (1.0 -c) / a0]
+
+    return np.asarray (b), np.asarray(a)    
+
 def design_LPF2 (fc, Q,  fs):
     """Calculates filter coefficients for a 2nd-order lowpass filter
 
@@ -66,6 +140,68 @@ def design_LPF2 (fc, Q,  fs):
 
     b = [1 / a0, 2.0 / a0, 1.0 / a0]
     a = [1, 2.0 * (1.0 - phi) / a0, (phi - K + 1.0) / a0]
+
+    return np.asarray (b), np.asarray(a)
+
+def design_LPFN (fc, Q, N, fs):
+    """Calculates filter coefficients for a Nth-order lowpass filter
+
+    Parameters
+    ----------
+    fc : float
+        Cutoff frequency of the filter in Hz
+    Q : float
+        Quality factor of the filter
+    N :  int
+        Desired filter order
+    fs : float
+        Sample rate in Hz
+
+    Returns
+    -------
+    sos : ndarray
+        Filter coefficients as a set of second-order sections
+    """
+    sos = np.array ([[]])
+    filterOrd = N
+    butterQs = butter_Qs (N)
+    while (N - 2 >= 0):
+        thisQ = butterQs[int(N/2) - 1]
+        if (N == filterOrd): thisQ *= Q / 0.7071
+        
+        b, a = design_LPF2 (fc, thisQ, fs)
+        sos = add_to_sos (sos, b, a)
+        N -= 2
+    
+    if (N > 0):
+        b, a = design_LPF1 (fc, fs)
+        sos = add_to_sos (sos, b, a)
+
+    return sos
+
+def design_HPF1 (fc, fs):
+    """Calculates filter coefficients for a 1st-order highpass filter
+
+    Parameters
+    ----------
+    fc : float
+        Cutoff frequency of the filter in Hz
+    fs : float
+        Sample rate in Hz
+
+    Returns
+    -------
+    b : ndarray
+        "b" (feedforward) coefficients of the filter
+    a : ndarray
+        "a" (feedback) coefficients of the filter
+    """
+    wc = 2 * np.pi * fc / fs
+    c = 1.0 / np.tan (wc / 2.0)
+    a0 = c + 1.0
+
+    b = [c / a0, -c / a0]
+    a = [1, (1.0 -c) / a0]
 
     return np.asarray (b), np.asarray(a)
 
@@ -97,6 +233,42 @@ def design_HPF2 (fc, Q,  fs):
     b = [phi / a0, -2.0 * phi / a0, phi / a0]
     a = [1, 2.0 * (1.0 - phi) / a0, (phi - K + 1.0) / a0]
     return np.asarray (b), np.asarray(a)
+
+def design_HPFN (fc, Q, N, fs):
+    """Calculates filter coefficients for a Nth-order highpass filter
+
+    Parameters
+    ----------
+    fc : float
+        Cutoff frequency of the filter in Hz
+    Q : float
+        Quality factor of the filter
+    N :  int
+        Desired filter order
+    fs : float
+        Sample rate in Hz
+
+    Returns
+    -------
+    sos : ndarray
+        Filter coefficients as a set of second-order sections
+    """
+    sos = np.array ([[]])
+    filterOrd = N
+    butterQs = butter_Qs (N)
+    while (N - 2 >= 0):
+        thisQ = butterQs[int(N/2) - 1]
+        if (N == filterOrd): thisQ *= Q / 0.7071
+        
+        b, a = design_HPF2 (fc, thisQ, fs)
+        sos = add_to_sos (sos, b, a)
+        N -= 2
+    
+    if (N > 0):
+        b, a = design_HPF1 (fc, fs)
+        sos = add_to_sos (sos, b, a)
+
+    return sos
 
 def design_notch (fc, Q, fs):
     """Calculates filter coefficients for a notch filter.
