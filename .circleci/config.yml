@@ -26,6 +26,7 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            pip install coverage
 
       - save_cache:
           paths:
@@ -37,6 +38,12 @@ jobs:
           command: |
             . venv/bin/activate
             python setup.py test
+
+      - run:
+          name: generate coverage data
+          command: |
+            coverage run setup.py test
+            codecov
 
       - store_artifacts:
           path: test-reports
