@@ -42,6 +42,7 @@ jobs:
       - run:
           name: generate coverage data
           command: |
+            . venv/bin/activate
             coverage run setup.py test
             codecov
 
