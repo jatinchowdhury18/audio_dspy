@@ -51,7 +51,7 @@ jobs:
           command: |
             . venv/bin/activate
             cd docs
-            sphinx-apidoc.exe -o source/ ../audio_dspy
+            sphinx-apidoc -o source/ ../audio_dspy
             make html
 
       - store_artifacts:
