@@ -49,10 +49,10 @@ jobs:
       - run:
           name: build docs
           command: |
-          . venv/bin/activate
-          cd docs
-          sphinx-apidoc.exe -o source/ ../audio_dspy
-          make html
+            . venv/bin/activate
+            cd docs
+            sphinx-apidoc.exe -o source/ ../audio_dspy
+            make html
 
       - store_artifacts:
           path: test-reports
