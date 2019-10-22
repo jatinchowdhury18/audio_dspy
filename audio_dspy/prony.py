@@ -60,7 +60,7 @@ def allpass_warp(rho, h):
     x = np.zeros(len(h))
     x[0] = 1
     h_warp = np.zeros(len(h))
-    for n in range(len(h)):
+    for n,_ in enumerate(h):
         h_warp += h[n] * x
         x = signal.lfilter(b_ap, a_ap, x)
     return h_warp
@@ -84,7 +84,7 @@ def allpass_warp_roots(rho, b):
     """
     roots = np.roots(b)
     warped_roots = np.zeros(len(roots), dtype=np.complex128)
-    for n in range(len(roots)):
+    for n,_ in enumerate(roots):
         mag = np.abs(roots[n])
         angle = np.angle(roots[n])
         warped_angle = np.arctan2(

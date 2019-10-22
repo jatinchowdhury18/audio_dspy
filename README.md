@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/jatinchowdhury18/audio_dspy.svg?style=svg)](https://circleci.com/gh/jatinchowdhury18/audio_dspy)
 [![codecov](https://codecov.io/gh/jatinchowdhury18/audio_dspy/branch/master/graph/badge.svg)](https://codecov.io/gh/jatinchowdhury18/audio_dspy)
+[![CodeFactor](https://www.codefactor.io/repository/github/jatinchowdhury18/audio_dspy/badge)](https://www.codefactor.io/repository/github/jatinchowdhury18/audio_dspy)
 
 audio_dspy is a Python package for audio signal processing tools.
 

@@ -9,11 +9,11 @@ _fs_ = 44100
 
 
 def checkCoefs(tester, b, a, b_exp, a_exp):
-    for n in range(len(b)):
+    for n, _ in enumerate(b):
         tester.assertTrue(np.abs(b[n] - b_exp[n]) < _tolerance_,
                           'Expected: b[{}] = {}. Actual: b[{}] = {}'.format(n, b_exp[n], n, b[n]))
 
-    for n in range(len(a)):
+    for n, _ in enumerate(a):
         tester.assertTrue(np.abs(a[n] - a_exp[n]) < _tolerance_,
                           'Expected: a[{}] = {}. Actual: a[{}] = {}'.format(n, a_exp[n], n, a[n]))
 

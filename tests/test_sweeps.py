@@ -26,6 +26,6 @@ class TestSweeps(TestCase):
         test_h = np.zeros(len(h))
         test_h[0] = 1
         diff = 0
-        for n in range(len(h)):
+        for n,_ in enumerate(h):
             diff += np.abs(h[n] - test_h[n])
         return diff

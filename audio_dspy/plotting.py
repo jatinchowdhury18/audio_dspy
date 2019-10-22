@@ -110,26 +110,26 @@ def plot_phase_response_sos(sos, worN=512, fs=2*np.pi):
     plot_freqz_angle(w, H)
 
 
-def plot_static_curve(function, range=10, num=1000):
+def plot_static_curve(function, gain=10, num=1000):
     """Plots the static curve of a nonlinear function
 
     Parameters
     ----------
     function: lambda (float) : float
         function to plot the static curve for
-    range: float, optional
-        range on which to plot the static curve
+    gain: float, optional
+        range of gains on which to plot the static curve [-gain, gain]
     num: int, optional
         number of points to plot
     """
-    x = np.linspace(-range, range, num=num)
+    x = np.linspace(-gain, gain, num=num)
     y = function(x)
     plt.plot(x, y)
     plt.xlabel('Input Gain')
     plt.ylabel('Output Gain')
 
 
-def plot_dynamic_curve(function, freq=100, fs=44100, range=10, num=1000):
+def plot_dynamic_curve(function, freq=100, fs=44100, gain=10, num=1000):
     """Plots the dynamic curve of a nonlinear function at a specific frequency
 
     Parameters
@@ -140,13 +140,13 @@ def plot_dynamic_curve(function, freq=100, fs=44100, range=10, num=1000):
         frequency [Hz] to plot the dynamic curve for, defaults to 100 Hz
     fs: float, optional
         sample rate [Hz] to use for the simulation, defaults to 44.1 kHz
-    range: float, optional
-        range on which to plot the dynamic curve [-range, range]
+    gain: float, optional
+        range of gains on which to plot the dynamic curve [-gain, gain]
     num: int, optional
         number of points to plot
     """
     n = np.arange(num)
-    x = range * np.sin(2 * np.pi * n * freq / fs)
+    x = gain * np.sin(2 * np.pi * n * freq / fs)
     y = function(x)
     plt.plot(x, y)
     plt.xlabel('Input Gain')
