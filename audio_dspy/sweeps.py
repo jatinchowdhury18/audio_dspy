@@ -1,6 +1,7 @@
 import numpy as np
 
-def sweep_log (f0, f1, duration, fs):
+
+def sweep_log(f0, f1, duration, fs):
     """Generates a logarithmic sine sweep
 
     Parameters
@@ -19,16 +20,17 @@ def sweep_log (f0, f1, duration, fs):
     x: ndarray
         A numpy array containing the sine sweep signal
     """
-    N = int (duration * fs)
-    n = np.arange (N)
-    
-    beta = N / np.log (f1 / f0)
+    N = int(duration * fs)
+    n = np.arange(N)
+
+    beta = N / np.log(f1 / f0)
     phase = 2 * np.pi * beta * f0 * (pow(f1 / f0, n / N) - 1.0)
     phi = np.pi / 180
-    
-    return np.cos ((phase + phi)/fs)
 
-def sweep_lin (duration, fs):
+    return np.cos((phase + phi)/fs)
+
+
+def sweep_lin(duration, fs):
     """Generates a linear sine sweep
 
     Parameters
@@ -43,15 +45,16 @@ def sweep_lin (duration, fs):
     x: ndarray
         A numpy array containing the sine sweep signal
     """
-    N = int (duration * fs)
-    n = np.arange (N)
-    
+    N = int(duration * fs)
+    n = np.arange(N)
+
     phase = 2 * np.pi * (((fs/2)/N) * n * n / 2)
     phi = np.pi / 180
-    
-    return np.cos ((phase + phi)/fs)
 
-def sweep2ir (dry_sweep, wet_sweep):
+    return np.cos((phase + phi)/fs)
+
+
+def sweep2ir(dry_sweep, wet_sweep):
     """Converts a pair of input/output sine sweeps into an impulse response
 
     Parameters
@@ -66,10 +69,10 @@ def sweep2ir (dry_sweep, wet_sweep):
     h: ndarray
         The impulse response of the system
     """
-    N = max (len (wet_sweep), len (dry_sweep))
-    SS = np.fft.fft (dry_sweep, n=N)
-    RS = np.fft.fft (wet_sweep, n=N)
-    
+    N = max(len(wet_sweep), len(dry_sweep))
+    SS = np.fft.fft(dry_sweep, n=N)
+    RS = np.fft.fft(wet_sweep, n=N)
+
     H = RS/SS
-    h = np.real (np.fft.ifft (H))
+    h = np.real(np.fft.ifft(H))
     return h

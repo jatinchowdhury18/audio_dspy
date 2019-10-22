@@ -46,6 +46,14 @@ jobs:
             coverage run setup.py test
             codecov
 
+      - run:
+          name: build docs
+          command: |
+            . venv/bin/activate
+            cd docs
+            sphinx-apidoc -o source/ ../audio_dspy
+            make html
+
       - store_artifacts:
           path: test-reports
           destination: test-reports

@@ -1,11 +1,12 @@
 import numpy as np
 import scipy.signal as signal
 import matplotlib.pyplot as plt
-from  matplotlib import ticker
-from  matplotlib import patches
+from matplotlib import ticker
+from matplotlib import patches
 import audio_dspy as adsp
 
-def plot_freqz_mag (w, H):
+
+def plot_freqz_mag(w, H):
     """Plots the magnitude output of the scipy.signal.freqz function
 
     Parameters
@@ -15,12 +16,13 @@ def plot_freqz_mag (w, H):
     H : ndarray
         H output of freqz
     """
-    plt.semilogx (w, 20 * np.log10 (np.abs (H)))
+    plt.semilogx(w, 20 * np.log10(np.abs(H)))
     plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
-    plt.ylabel ('Magnitude [dB]')
-    plt.xlabel ('Frequency [Hz]')
+    plt.ylabel('Magnitude [dB]')
+    plt.xlabel('Frequency [Hz]')
 
-def plot_freqz_angle (w, H):
+
+def plot_freqz_angle(w, H):
     """Plots the phase output of the scipy.signal.freqz function
 
     Parameters
@@ -30,12 +32,13 @@ def plot_freqz_angle (w, H):
     H : ndarray
         H output of freqz
     """
-    plt.semilogx (w, np.unwrap (np.angle (H)))
+    plt.semilogx(w, np.unwrap(np.angle(H)))
     plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
-    plt.ylabel ('Phase [rad]')
-    plt.xlabel ('Frequency [Hz]')
+    plt.ylabel('Phase [rad]')
+    plt.xlabel('Frequency [Hz]')
 
-def plot_magnitude_response (b, a, worN=512, fs=2*np.pi):
+
+def plot_magnitude_response(b, a, worN=512, fs=2*np.pi):
     """Plots the magnitude response of a digital filter in dB, using second order sections
 
     Parameters
@@ -50,10 +53,11 @@ def plot_magnitude_response (b, a, worN=512, fs=2*np.pi):
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.freqz (b, a, worN=worN, fs=fs)
-    plot_freqz_mag (w, H)
+    w, H = signal.freqz(b, a, worN=worN, fs=fs)
+    plot_freqz_mag(w, H)
 
-def plot_magnitude_response_sos (sos, worN=512, fs=2*np.pi):
+
+def plot_magnitude_response_sos(sos, worN=512, fs=2*np.pi):
     """Plots the magnitude response of a digital filter in dB
 
     Parameters
@@ -66,10 +70,11 @@ def plot_magnitude_response_sos (sos, worN=512, fs=2*np.pi):
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.sosfreqz (sos, worN=worN, fs=fs)
-    plot_freqz_mag (w, H)
+    w, H = signal.sosfreqz(sos, worN=worN, fs=fs)
+    plot_freqz_mag(w, H)
 
-def plot_phase_response (b, a, worN=512, fs=2*np.pi):
+
+def plot_phase_response(b, a, worN=512, fs=2*np.pi):
     """Plots the phase response of a digital filter in radians
 
     Parameters
@@ -84,10 +89,11 @@ def plot_phase_response (b, a, worN=512, fs=2*np.pi):
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.freqz (b, a, worN=worN, fs=fs)
-    plot_freqz_angle (w, H)
+    w, H = signal.freqz(b, a, worN=worN, fs=fs)
+    plot_freqz_angle(w, H)
 
-def plot_phase_response_sos (sos, worN=512, fs=2*np.pi):
+
+def plot_phase_response_sos(sos, worN=512, fs=2*np.pi):
     """Plots the phase response of a digital filter in radians, using second order sections
 
     Parameters
@@ -100,10 +106,11 @@ def plot_phase_response_sos (sos, worN=512, fs=2*np.pi):
     fs: float, optional
         sample rate of the filter
     """
-    w, H = signal.sosfreqz (sos, worN=worN, fs=fs)
-    plot_freqz_angle (w, H)
+    w, H = signal.sosfreqz(sos, worN=worN, fs=fs)
+    plot_freqz_angle(w, H)
 
-def plot_static_curve (function, range=10, num=1000):
+
+def plot_static_curve(function, range=10, num=1000):
     """Plots the static curve of a nonlinear function
 
     Parameters
@@ -115,13 +122,14 @@ def plot_static_curve (function, range=10, num=1000):
     num: int, optional
         number of points to plot
     """
-    x = np.linspace (-range, range, num=num)
-    y = function (x)
-    plt.plot (x, y)
-    plt.xlabel ('Input Gain')
-    plt.ylabel ('Output Gain')
+    x = np.linspace(-range, range, num=num)
+    y = function(x)
+    plt.plot(x, y)
+    plt.xlabel('Input Gain')
+    plt.ylabel('Output Gain')
 
-def plot_dynamic_curve (function, freq=100, fs=44100, range=10, num=1000):
+
+def plot_dynamic_curve(function, freq=100, fs=44100, range=10, num=1000):
     """Plots the dynamic curve of a nonlinear function at a specific frequency
 
     Parameters
@@ -137,14 +145,15 @@ def plot_dynamic_curve (function, freq=100, fs=44100, range=10, num=1000):
     num: int, optional
         number of points to plot
     """
-    n = np.arange (num)
-    x = range * np.sin (2 * np.pi * n * freq / fs)
-    y = function (x)
-    plt.plot (x, y)
-    plt.xlabel ('Input Gain')
-    plt.ylabel ('Output Gain')
+    n = np.arange(num)
+    x = range * np.sin(2 * np.pi * n * freq / fs)
+    y = function(x)
+    plt.plot(x, y)
+    plt.xlabel('Input Gain')
+    plt.ylabel('Output Gain')
 
-def plot_harmonic_response (function, freq=100, fs=44100, gain=0.1, num=10000):
+
+def plot_harmonic_response(function, freq=100, fs=44100, gain=0.1, num=10000):
     """Plots the harmonic response of a nonlinear function at a specific frequency
 
     Parameters
@@ -160,18 +169,19 @@ def plot_harmonic_response (function, freq=100, fs=44100, gain=0.1, num=10000):
     num: int, optional
         number of points to plot
     """
-    n = np.arange (num)
-    x = gain*np.sin (2 * np.pi * n * freq / fs)
-    y = function (np.copy (x))
+    n = np.arange(num)
+    x = gain*np.sin(2 * np.pi * n * freq / fs)
+    y = function(np.copy(x))
 
-    f = np.linspace (0, fs/2, num=num/2+1)
-    H = adsp.normalize (np.fft.rfft (y))
-    plt.semilogx (f, 20 * np.log10 (np.abs (H)))
+    f = np.linspace(0, fs/2, num=num/2+1)
+    H = adsp.normalize(np.fft.rfft(y))
+    plt.semilogx(f, 20 * np.log10(np.abs(H)))
     plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
-    plt.xlabel ('Frequency [Hz]')
-    plt.ylabel ('Magnitude [dB]')
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Magnitude [dB]')
 
-def zplane (b, a):
+
+def zplane(b, a):
     """Plots the pole-zero response of a digital filter
 
     Parameters
@@ -181,11 +191,11 @@ def zplane (b, a):
     a : array-like
         feed-back coefficients
     """
-    p = np.roots (a)
-    z = np.roots (b)
+    p = np.roots(a)
+    z = np.roots(b)
 
     ax = plt.subplot(111)
-    uc = patches.Circle((0,0), radius=1, fill=False,
+    uc = patches.Circle((0, 0), radius=1, fill=False,
                         color='white', ls='dashed')
     ax.add_patch(uc)
 
@@ -193,9 +203,13 @@ def zplane (b, a):
     ax.spines['bottom'].set_position('center')
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    
+
     plt.plot(z.real, z.imag, 'go', ms=10)
     plt.plot(p.real, p.imag, 'rx', ms=10)
 
-    r = 1.5; plt.axis('scaled'); plt.axis([-r, r, -r, r])
-    ticks = [-1, -.5, .5, 1]; plt.xticks(ticks); plt.yticks(ticks)
+    r = 1.5
+    plt.axis('scaled')
+    plt.axis([-r, r, -r, r])
+    ticks = [-1, -.5, .5, 1]
+    plt.xticks(ticks)
+    plt.yticks(ticks)

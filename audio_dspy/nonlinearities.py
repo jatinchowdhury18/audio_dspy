@@ -1,6 +1,7 @@
 import numpy as np
 
-def soft_clipper (x, deg=3):
+
+def soft_clipper(x, deg=3):
     """Implementation of a cubic soft clipper
 
     Parameters
@@ -15,17 +16,20 @@ def soft_clipper (x, deg=3):
     y: {float, ndarray}
         output of the soft clipper
     """
-    if isinstance (x, np.ndarray):
-        t = np.copy (x)
-        for n in range (len (x)):
-            t[n] = soft_clipper (t[n], deg)
+    if isinstance(x, np.ndarray):
+        t = np.copy(x)
+        for n in range(len(x)):
+            t[n] = soft_clipper(t[n], deg)
         return t
-    
-    if (x > 1): return (deg-1)/deg
-    if (x < -1): return -(deg-1)/deg
+
+    if (x > 1):
+        return (deg-1)/deg
+    if (x < -1):
+        return -(deg-1)/deg
     return x - x**deg/deg
 
-def hard_clipper (x):
+
+def hard_clipper(x):
     """Implementation of a hard clipper
 
     Parameters
@@ -38,12 +42,14 @@ def hard_clipper (x):
     y: {float, ndarray}
         output of the hard clipper
     """
-    if isinstance (x, np.ndarray):
-        t = np.copy (x)
-        for n in range (len (x)):
-            t[n] = hard_clipper (t[n])
+    if isinstance(x, np.ndarray):
+        t = np.copy(x)
+        for n in range(len(x)):
+            t[n] = hard_clipper(t[n])
         return t
-    
-    if (x > 1): return 1
-    if (x < -1): return -1
+
+    if (x > 1):
+        return 1
+    if (x < -1):
+        return -1
     return x
