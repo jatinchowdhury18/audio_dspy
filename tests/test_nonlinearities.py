@@ -10,9 +10,12 @@ _N_ = 512
 class TestNLs(TestCase):
     def run_samples(self, func, gain, exp):
         high = func(gain)
+        mid = func(0)
         low = func(-gain)
         self.assertTrue(np.abs(high - exp) < _tolerance_,
                         'Expected: {}. Actual: {}'.format(exp, high))
+        self.assertTrue(np.abs(mid - 0) < _tolerance_,
+                        'Expected: {}. Actual: {}'.format(0, high))
         self.assertTrue(np.abs(low + exp) < _tolerance_,
                         'Expected: -{}. Actual: {}'.format(exp, low))
 
