@@ -3,6 +3,7 @@ import scipy.signal as signal
 import matplotlib.pyplot as plt
 from matplotlib import ticker
 from matplotlib import patches
+from matplotlib.gridspec import GridSpec
 import audio_dspy as adsp
 
 
@@ -181,7 +182,7 @@ def plot_harmonic_response(function, freq=100, fs=44100, gain=0.1, num=10000):
     plt.ylabel('Magnitude [dB]')
 
 
-def zplane(b, a):
+def zplane(b, a, radius=1.5):
     """Plots the pole-zero response of a digital filter
 
     Parameters
@@ -190,6 +191,8 @@ def zplane(b, a):
         feed-forward coefficients
     a : array-like
         feed-back coefficients
+    radius : float
+        The radius to plot for (default 1.5)
     """
     p = np.roots(a)
     z = np.roots(b)
@@ -207,9 +210,61 @@ def zplane(b, a):
     plt.plot(z.real, z.imag, 'go', ms=10)
     plt.plot(p.real, p.imag, 'rx', ms=10)
 
-    r = 1.5
     plt.axis('scaled')
-    plt.axis([-r, r, -r, r])
-    ticks = [-1, -.5, .5, 1]
+    plt.axis([-radius, radius, -radius, radius])
+
+    ticks = []
+    for n in np.linspace(np.max([radius-0.5, 1]), 0, endpoint=False, num=2):
+        ticks.append(n)
+        ticks.append(-n)
     plt.xticks(ticks)
     plt.yticks(ticks)
+
+
+def plot_spectrogram(x, fs, win_size=1024, dbRange=180, title=''):
+    """ Plots a dB spectrogram of the input signal and takes care of most of the formatting to get a standard log frequency scale spectrogram.
+
+    Parameters
+    ----------
+    x : array-like
+        Signal to plot the spectrogram of
+    fs : float
+        Sample rate of the signal
+    win_size : int, optional
+        Window size to use (default 1024)
+    dbRange : float, optional
+        The range of Decibels to include in the spectrogram (default 180)
+    title : string, optional
+        The title to use for the figure
+    """
+    fig = plt.figure()
+    gs = GridSpec(7, 1)
+
+    # Plot the time domain signal on top
+    ax1 = fig.add_subplot(gs[0, 0])
+
+    ax1.plot(np.arange(0., len(x))/fs, x, '-')
+    ax1.grid()
+    ax1.set(ylabel='Amplitude', title=title)
+    ax1.set_ylim([-1., 1.])
+    ax1.set_xlim([0, len(x)/fs])
+
+    ax2 = fig.add_subplot(gs[2:7, 0])
+    Pxx, freqs, t, _ = plt.specgram(x, NFFT=win_size, Fs=fs, window=np.hamming(
+        win_size), noverlap=win_size/2, pad_to=win_size*2)
+    Pxx_dB = 20*np.log10(Pxx/np.max(Pxx))
+    Pxx_dB = np.where(Pxx_dB < -dbRange, -dbRange, Pxx_dB)
+
+    cores = ax2.pcolormesh(
+        t, freqs, Pxx_dB, cmap='inferno', vmin=-dbRange, vmax=0)
+    ax2.set(ylabel='Frequency (Hz)', xlabel='Time (s)')
+
+    # Add a colour bar
+    cbar = plt.colorbar(cores, orientation="horizontal", pad=0.25)
+    cbar.set_label('Power (dB)')
+    cbar.set_clim(-dbRange, 0)
+    ax2.set_yscale('log')
+    ax2.set_ylim([25., fs/2])
+    ax2.set_xlim([0, len(x)/fs])
+
+    plt.show()
