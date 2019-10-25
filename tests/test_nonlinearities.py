@@ -30,17 +30,21 @@ class TestNLs(TestCase):
                         'Expected: -{}. Actual: {}'.format(exp, out[_N_-1]))
 
     def test_soft_clipper(self):
-        def func(x): return adsp.soft_clipper(x, 5)
+        def func(x):
+            return adsp.soft_clipper(x, 5)
         self.run_samples(func, 10000, 0.8)
 
     def test_soft_clipper_block(self):
-        def func(x): return adsp.soft_clipper(x, 5)
+        def func(x):
+            return adsp.soft_clipper(x, 5)
         self.run_block(func, 10000, 0.8)
 
     def test_hard_clipper(self):
-        def func(x): return adsp.hard_clipper(x)
+        def func(x):
+            return adsp.hard_clipper(x)
         self.run_samples(func, 10000, 1.0)
 
     def test_hard_clipper_block(self):
-        def func(x): return adsp.hard_clipper(x)
+        def func(x):
+            return adsp.hard_clipper(x)
         self.run_block(func, 10000, 1.0)

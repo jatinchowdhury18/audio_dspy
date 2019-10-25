@@ -30,10 +30,10 @@ class TestProny(TestCase):
         H = adsp.normalize(H)
         Hp = adsp.normalize(Hp)
 
-        sum = 0
+        diffs = 0
         for n, _ in enumerate(H):
-            sum += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
-        error = sum / _N_
+            diffs += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
+        error = diffs / len(H)
         self.assertTrue(error < _tolerance_, 'Error: {}'.format(error))
 
     def test_prony_warped(self):
@@ -48,10 +48,10 @@ class TestProny(TestCase):
         H = adsp.normalize(H)
         Hp = adsp.normalize(Hp)
 
-        sum = 0
+        diffs = 0
         for n, _ in enumerate(H):
-            sum += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
-        error = sum / _N_
+            diffs += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
+        error = diffs / len(H)
         # @TODO: reduce this error!
         self.assertTrue(error < _tolerance_*10000, 'Error: {}'.format(error))
 
