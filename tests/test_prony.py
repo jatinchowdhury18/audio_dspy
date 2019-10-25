@@ -1,5 +1,6 @@
 from unittest import TestCase
 import numpy as np
+import scipy.signal as signal
 import random as r
 
 import audio_dspy as adsp
@@ -18,10 +19,41 @@ class TestProny(TestCase):
             self.h[n] = r.random() - 0.5
 
     def test_prony(self):
-        pass
+        imp = adsp.impulse(_N_)
+        b, a = adsp.design_lowshelf(10000, 2, 2, _fs_)
+        x = signal.lfilter(b, a, imp)
+
+        bp, ap = adsp.prony(x, 2, 2)
+        _, H = signal.freqz(b, a, fs=_fs_)
+        _, Hp = signal.freqz(bp, ap, fs=_fs_)
+
+        H = adsp.normalize(H)
+        Hp = adsp.normalize(Hp)
+
+        sum = 0
+        for n, _ in enumerate(H):
+            sum += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
+        error = sum / _N_
+        self.assertTrue(error < _tolerance_, 'Error: {}'.format(error))
 
     def test_prony_warped(self):
-        pass
+        imp = adsp.impulse(_N_)
+        b, a = adsp.design_lowshelf(100, 2, 2, _fs_)
+        x = signal.lfilter(b, a, imp)
+
+        bp, ap = adsp.prony_warped(x, 2, 2, _rho_)
+        _, H = signal.freqz(b, a, fs=_fs_)
+        _, Hp = signal.freqz(bp, ap, fs=_fs_)
+
+        H = adsp.normalize(H)
+        Hp = adsp.normalize(Hp)
+
+        sum = 0
+        for n, _ in enumerate(H):
+            sum += np.abs(np.abs(H[n]) - np.abs(Hp[n]))
+        error = sum / _N_
+        # @TODO: reduce this error!
+        self.assertTrue(error < _tolerance_*10000, 'Error: {}'.format(error))
 
     def test_warp_roots(self):
         b_s = np.array([0, 0, 0.00111784])
