@@ -18,16 +18,16 @@ def checkCoefs(tester, b, a, b_exp, a_exp):
                           'Expected: a[{}] = {}. Actual: a[{}] = {}'.format(n, a_exp[n], n, a[n]))
 
 
-class TestEQ(TestCase):
-    def test_eq_LPF1(self):
+class TestEQDesign(TestCase):
+    def test_eq_LPF1_design(self):
         b, a = adsp.design_LPF1(_fs_/2, _fs_)
         checkCoefs(self, b, a, [1, 1], [1, 1])
 
-    def test_eq_LPF2(self):
+    def test_eq_LPF2_design(self):
         b, a = adsp.design_LPF2(_fs_/2, 0.707, _fs_)
         checkCoefs(self, b, a, [1, 2, 1], [1, 2, 1])
 
-    def test_eq_LPFN(self):
+    def test_eq_LPFN_design(self):
         fs = _fs_*8
         # Check filter slope
         for order in range(1, 20):
@@ -42,15 +42,15 @@ class TestEQ(TestCase):
             self.assertTrue(np.abs(diff_dB - exp_diff_dB) < _tolerance_*1000,
                             "Incorrect slope! Expected: {}, Actual: {}".format(exp_diff_dB, diff_dB))
 
-    def test_eq_HPF1(self):
+    def test_eq_HPF1_design(self):
         b, a = adsp.design_HPF1(1, _fs_)
         checkCoefs(self, b, a, [1, -1], [1, -1])
 
-    def test_eq_HPF2(self):
+    def test_eq_HPF2_design(self):
         b, a = adsp.design_HPF2(1, 0.707, _fs_)
         checkCoefs(self, b, a, [1, -2, 1], [1, -2, 1])
 
-    def test_eq_HPFN(self):
+    def test_eq_HPFN_design(self):
         fs = _fs_*8
         # Check filter slope
         for order in range(1, 20):
@@ -65,19 +65,19 @@ class TestEQ(TestCase):
             self.assertTrue(np.abs(diff_dB - exp_diff_dB) < _tolerance_*5000,
                             "Incorrect slope! Expected: {}, Actual: {}".format(exp_diff_dB, diff_dB))
 
-    def test_eq_lowshelf(self):
+    def test_eq_lowshelf_design(self):
         b, a = adsp.design_lowshelf(_fs_/2, 0.707, 1, _fs_)
         checkCoefs(self, b, a, [1, 2, 1], [1, 2, 1])
 
-    def test_eq_highshelf(self):
+    def test_eq_highshelf_design(self):
         b, a = adsp.design_highshelf(1, 0.707, 1, _fs_)
         checkCoefs(self, b, a, [1, -2, 1], [1, -2, 1])
 
-    def test_eq_notch(self):
+    def test_eq_notch_design(self):
         b, a = adsp.design_notch(_fs_/2, 0.707, _fs_)
         checkCoefs(self, b, a, [1, 2, 1], [1, 2, 1])
 
-    def test_eq_bell(self):
+    def test_eq_bell_design(self):
         b, a = adsp.design_bell(_fs_/2, 0.707, 1, _fs_)
         checkCoefs(self, b, a, [1, 2, 1], [1, 2, 1])
 

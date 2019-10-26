@@ -5,6 +5,7 @@ from .sweeps import *
 from .nonlinearities import *
 from .plotting import *
 from .eq_design import *
+from .eq import *
 name = "audio_dspy"
 
 
