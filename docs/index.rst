@@ -10,9 +10,10 @@ Welcome to audio_dspy's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-`audio_dspy` is a Python package for audio signal processing tools.
+:code:`audio_dspy` is a Python package for audio signal processing tools.
 
 Current tools include:
+
 * EQ filter design
 * Nonlinear Processors
 * Sine Sweep and Transfer Function / Impulse Response tools
@@ -29,6 +30,7 @@ Tutorials
 =========
 
 * :doc:`/tutorials/eq_tutorial`
+* :doc:`/tutorials/ir_tutorial`
 
 Indices and tables
 ==================
