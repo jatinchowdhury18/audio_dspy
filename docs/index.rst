@@ -19,6 +19,7 @@ Current tools include:
 * Sine Sweep and Transfer Function / Impulse Response tools
 * Advances plotting: frequency response, static/dynamic curves, spectrograms
 * Prony's Method
+* Modal modelling tools
 
 Install using `pip`:
 
@@ -31,6 +32,7 @@ Tutorials
 
 * :doc:`/tutorials/eq_tutorial`
 * :doc:`/tutorials/ir_tutorial`
+* :doc:`/tutorials/modla_tutorial`
 
 Indices and tables
 ==================

@@ -6,6 +6,7 @@ from .nonlinearities import *
 from .plotting import *
 from .eq_design import *
 from .eq import *
+from .modal_tools import *
 name = "audio_dspy"
 
 

@@ -1,6 +1,8 @@
 Impulse Response Tools
 ======================
 
+.. sectionathor:: Jatin Chowdhury
+
 Generating Signals for Recording IRs
 ------------------------------------
 
