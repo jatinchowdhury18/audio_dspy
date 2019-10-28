@@ -32,6 +32,7 @@ Tutorials
 
 * :doc:`/tutorials/eq_tutorial`
 * :doc:`/tutorials/ir_tutorial`
+* :doc:`/tutorials/nonlin_tutorial`
 * :doc:`/tutorials/modal_tutorial`
 
 Indices and tables

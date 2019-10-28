@@ -4,8 +4,8 @@ Modal Modelling
 .. sectionathor:: Jatin Chowdhury
 
 In this tutorial, we will show how to use :code:`audio_dsp` to generate a
-modal model of a measured signal. To begin, we will examine a test signal
-recorded from a carrilon bell.
+modal model of a measured signal. To begin, we will examine a simulated
+noisy modal signal.
 
 .. code-block:: python
 
