@@ -3,6 +3,8 @@
 [![CircleCI](https://circleci.com/gh/jatinchowdhury18/audio_dspy.svg?style=svg)](https://circleci.com/gh/jatinchowdhury18/audio_dspy)
 [![codecov](https://codecov.io/gh/jatinchowdhury18/audio_dspy/branch/master/graph/badge.svg)](https://codecov.io/gh/jatinchowdhury18/audio_dspy)
 [![CodeFactor](https://www.codefactor.io/repository/github/jatinchowdhury18/audio_dspy/badge)](https://www.codefactor.io/repository/github/jatinchowdhury18/audio_dspy)
+[![Documentation Status](https://readthedocs.org/projects/audio-dspy/badge/?version=latest)](https://audio-dspy.readthedocs.io/en/latest/?badge=latest)
+
 
 audio_dspy is a Python package for audio signal processing tools.
 
@@ -13,6 +15,7 @@ Current tools include:
 - Plotting Frequency Responses and Static Curves
 - Converting transfer functions to minimum or linear phase
 - Prony's method, and Prony's method with frequency warping
+- Modal modelling tools
 
 Install using `pip`:
 ```bash

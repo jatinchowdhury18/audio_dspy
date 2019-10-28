@@ -32,7 +32,7 @@ Tutorials
 
 * :doc:`/tutorials/eq_tutorial`
 * :doc:`/tutorials/ir_tutorial`
-* :doc:`/tutorials/modla_tutorial`
+* :doc:`/tutorials/modal_tutorial`
 
 Indices and tables
 ==================

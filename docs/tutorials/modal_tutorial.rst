@@ -1,5 +1,5 @@
-Modal Modelling Tutorial
-========================
+Modal Modelling
+===============
 
 .. sectionathor:: Jatin Chowdhury
 
