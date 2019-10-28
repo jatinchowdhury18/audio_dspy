@@ -7,7 +7,7 @@ from matplotlib.gridspec import GridSpec
 import audio_dspy as adsp
 
 
-def plot_freqz_mag(w, H):
+def plot_freqz_mag(w, H, norm=False):
     """Plots the magnitude output of the scipy.signal.freqz function
 
     Parameters
@@ -16,14 +16,19 @@ def plot_freqz_mag(w, H):
         w output of freqz
     H : ndarray
         H output of freqz
+    norm : bool, optional
+        Should normalize the magnitude response
     """
+    if norm:
+        H = adsp.normalize(H)
+
     plt.semilogx(w, 20 * np.log10(np.abs(H)))
     plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
     plt.ylabel('Magnitude [dB]')
     plt.xlabel('Frequency [Hz]')
 
 
-def plot_freqz_angle(w, H):
+def plot_freqz_angle(w, H, log=True):
     """Plots the phase output of the scipy.signal.freqz function
 
     Parameters
@@ -32,14 +37,19 @@ def plot_freqz_angle(w, H):
         w output of freqz
     H : ndarray
         H output of freqz
+    log : bool, optional
+        Should plot log scale
     """
-    plt.semilogx(w, np.unwrap(np.angle(H)))
-    plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
+    if log:
+        plt.semilogx(w, np.unwrap(np.angle(H)))
+        plt.gca().xaxis.set_major_formatter(ticker.ScalarFormatter())
+    else:
+        plt.plot(w, np.unwrap(np.angle(H)))
     plt.ylabel('Phase [rad]')
     plt.xlabel('Frequency [Hz]')
 
 
-def plot_magnitude_response(b, a, worN=512, fs=2*np.pi):
+def plot_magnitude_response(b, a, worN=512, fs=2*np.pi, norm=False):
     """Plots the magnitude response of a digital filter in dB, using second order sections
 
     Parameters
@@ -53,9 +63,11 @@ def plot_magnitude_response(b, a, worN=512, fs=2*np.pi):
         If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
+    norm : bool, optional
+        Should normalize the magnitude response
     """
     w, H = signal.freqz(b, a, worN=worN, fs=fs)
-    plot_freqz_mag(w, H)
+    plot_freqz_mag(w, H, norm=norm)
 
 
 def plot_magnitude_response_sos(sos, worN=512, fs=2*np.pi):
@@ -70,12 +82,14 @@ def plot_magnitude_response_sos(sos, worN=512, fs=2*np.pi):
         If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
+    norm : bool, optional
+        Should normalize the magnitude response
     """
     w, H = signal.sosfreqz(sos, worN=worN, fs=fs)
-    plot_freqz_mag(w, H)
+    plot_freqz_mag(w, H, norm=norm)
 
 
-def plot_phase_response(b, a, worN=512, fs=2*np.pi):
+def plot_phase_response(b, a, worN=512, fs=2*np.pi, log=True):
     """Plots the phase response of a digital filter in radians
 
     Parameters
@@ -89,12 +103,14 @@ def plot_phase_response(b, a, worN=512, fs=2*np.pi):
         If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
+    log : bool, optional
+        Should plot log scale
     """
     w, H = signal.freqz(b, a, worN=worN, fs=fs)
-    plot_freqz_angle(w, H)
+    plot_freqz_angle(w, H, log=log)
 
 
-def plot_phase_response_sos(sos, worN=512, fs=2*np.pi):
+def plot_phase_response_sos(sos, worN=512, fs=2*np.pi, log=True):
     """Plots the phase response of a digital filter in radians, using second order sections
 
     Parameters
@@ -106,9 +122,11 @@ def plot_phase_response_sos(sos, worN=512, fs=2*np.pi):
         If an array_like, compute the response at the frequencies given. These are in the same units as fs.
     fs: float, optional
         sample rate of the filter
+    log : bool, optional
+        Should plot log scale
     """
     w, H = signal.sosfreqz(sos, worN=worN, fs=fs)
-    plot_freqz_angle(w, H)
+    plot_freqz_angle(w, H, log=log)
 
 
 def plot_static_curve(function, gain=10, num=1000):
