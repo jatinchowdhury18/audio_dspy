@@ -29,7 +29,7 @@ class TestModal(TestCase):
         self.sig = adsp.normalize(self.sig)
 
     def test_find_freqs(self):
-        freqs, peaks = adsp.find_freqs(self.sig, _fs_, above=80, plot=True)
+        freqs, peaks = adsp.find_freqs(self.sig, _fs_, above=80)
         freqs_test = np.copy(_freqs_)
         for n in range(_n_modes_):
             self.assertTrue(np.abs(freqs[n] - freqs_test[n]) > _tolerance_,
