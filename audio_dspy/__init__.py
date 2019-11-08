@@ -7,6 +7,7 @@ from .plotting import *
 from .eq_design import *
 from .eq import *
 from .modal_tools import *
+from .delay_utils import *
 name = "audio_dspy"
 
 
