@@ -81,6 +81,15 @@ class TestEQDesign(TestCase):
         b, a = adsp.design_bell(_fs_/2, 0.707, 1, _fs_)
         checkCoefs(self, b, a, [1, 2, 1], [1, 2, 1])
 
+    def test_eq_design_high_low_shelf(self):
+        b, a = adsp.design_high_low_shelf(0.5, 2, 1000, _fs_)
+        w, H = signal.freqz(b, a, fs=_fs_, worN=512)
+        H_dB = 20 * np.log10(np.abs(H))
+        self.assertTrue(np.abs(-6 - H_dB[0]) < 30*_tolerance_,
+                        'Low gain incorrect! Expected: {}, Actual: {}'.format(-6, H_dB[0]))
+        self.assertTrue(np.abs(6 - H_dB[511]) < 30*_tolerance_,
+                        'High gain incorrect! Expected: {}, Actual: {}'.format(-6, H_dB[511]))
+
     def test_bilinear_biquad(self):
         b_s = np.array([0, 0, 0.00111784])
         a_s = np.array([3.015e-7, 4.721e-4, 4e3])

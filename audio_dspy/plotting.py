@@ -70,7 +70,7 @@ def plot_magnitude_response(b, a, worN=512, fs=2*np.pi, norm=False):
     plot_freqz_mag(w, H, norm=norm)
 
 
-def plot_magnitude_response_sos(sos, worN=512, fs=2*np.pi):
+def plot_magnitude_response_sos(sos, worN=512, fs=2*np.pi, norm=False):
     """Plots the magnitude response of a digital filter in dB
 
     Parameters

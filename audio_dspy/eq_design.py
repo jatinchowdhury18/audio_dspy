@@ -396,7 +396,69 @@ def design_lowshelf(fc, Q, gain, fs):
     return b, a
 
 
+def design_high_low_shelf(low_gain, high_gain, fc, fs):
+    """
+    Design a first-order shelf filter
+
+    Parameters
+    ----------
+    low_gain : float
+        Low frequency gain
+    high_gain : float
+        High frequency gain
+    fc : float
+        Transition frequency
+    fs : float
+        Sample rate
+
+    Returns
+    -------
+    b : array-like
+        Feedforward filter coefficients
+    a : array-like
+        Feedback filter coefficients
+
+    [1] https://ccrma.stanford.edu/courses/424/handouts.2004/424_Handout22_Filters4_LectureNotes.pdf
+    """
+    if (low_gain == high_gain):
+        b = [low_gain, 0]
+        a = [1, 0]
+        return np.asarray(b), np.asarray(a)
+
+    wc = 2 * np.pi * fc
+    p = np.sqrt(wc**2 * (high_gain**2 - low_gain*high_gain) /
+                (low_gain*high_gain - low_gain**2))
+    K = p / np.tan(p / (2 * fs))
+
+    b0 = high_gain / p
+    b1 = low_gain
+    a0 = 1 / p
+    a1 = 1
+
+    a0_z = a0*K + a1
+
+    b = [(b0*K + b1) / a0_z, (-b0*K + b1) / a0_z]
+    a = [1, (-a0*K + a1) / a0_z]
+
+    return np.asarray(b), np.asarray(a)
+
+
 def bilinear_biquad(b_s, a_s, fs, matchPole=False):
+    """
+    Compute the bilinear transform for a biquad filter
+    with optional pole matching
+
+    Parameters
+    ----------
+    b_s : array-like
+        Analog numerator coefficients
+    a_s : array-like
+        Analog denominator coefficients
+    fs : float
+        Sample rate
+    matchPole : bool, optional
+        Should match the pole frequency with frequency warping
+    """
     # find freq to match with bilinear transform
     T = 1.0 / fs
     c = 2/T
