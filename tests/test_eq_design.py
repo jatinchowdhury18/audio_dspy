@@ -101,3 +101,9 @@ class TestEQDesign(TestCase):
 
         self.assertTrue(np.abs(poleFreq - dpoleFreq) < poleFreq*_tolerance_,
                         'Pole not matched correctly! Expected: {}, Actual: {}'.format(poleFreq, dpoleFreq))
+
+    def test_design_allpass1(self):
+        b, a = adsp.design_allpass1(0.5)
+        pole = np.roots(a)[0]
+
+        self.assertTrue(pole == -0.5, 'Incorrect pole location!')

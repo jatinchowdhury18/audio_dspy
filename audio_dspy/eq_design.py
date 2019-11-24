@@ -480,3 +480,25 @@ def bilinear_biquad(b_s, a_s, fs, matchPole=False):
     b[2] = (b_s[0] * c_2 - b_s[1] * c + b_s[2]) / a0
 
     return b, a
+
+
+def design_allpass1(rho):
+    """
+    Design a first-order allpass filter with a set pole location
+
+    Parameters
+    ----------
+    rho : float (-1, 1)
+        Pole location
+
+    Returns
+    -------
+    b : array-like
+        Feedforward filter coefficients
+    a : array-like
+        Feedback filter coefficients
+    """
+    b = [rho, 1]
+    a = [1, rho]
+
+    return np.asarray(b), np.asarray(a)
