@@ -16,17 +16,10 @@ def soft_clipper(x, deg=3):
     y: {float, ndarray}
         output of the soft clipper
     """
-    if isinstance(x, np.ndarray):
-        t = np.copy(x)
-        for n in range(len(x)):
-            t[n] = soft_clipper(t[n], deg)
-        return t
+    assert deg % 2 == 1, "Degree must be odd integer"
 
-    if (x > 1):
-        return (deg-1)/deg
-    if (x < -1):
-        return -(deg-1)/deg
-    return x - x**deg/deg
+    return np.where(x > 1, (deg-1)/deg,
+                    np.where(x < -1, -(deg-1)/deg, x - x**deg/deg))
 
 
 def hard_clipper(x):
@@ -42,14 +35,29 @@ def hard_clipper(x):
     y: {float, ndarray}
         output of the hard clipper
     """
-    if isinstance(x, np.ndarray):
-        t = np.copy(x)
-        for n in range(len(x)):
-            t[n] = hard_clipper(t[n])
-        return t
+    return np.where(x > 1, 1,
+                    np.where(x < -1, -1, x))
 
-    if (x > 1):
-        return 1
-    if (x < -1):
-        return -1
-    return x
+
+def dropout(x, width=0.5):
+    """Implementation of dropout nonlinearity
+
+    Parameters
+    ----------
+    x: {float, ndarray}
+        input to the nonlinearity
+
+    width: float, optional
+        width of the dropout region
+
+    Returns
+    -------
+    y: {float, ndarray}
+        output of the nonlinearity
+    """
+    assert width > 0, "Width must be greater than zero"
+
+    B = np.sqrt(width**3 / 3)
+    return np.where(x > B, x - B + (B/width)**3,
+                    np.where(x < -B, x + B - (B/width)**3,
+                             (x/width)**3))
