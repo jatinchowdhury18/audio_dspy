@@ -23,7 +23,8 @@ def LMS(input, desired, mu, L):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(desired), 'Desired and input signals must have equal length'
+    assert len(input) == len(
+        desired), 'Desired and input signals must have equal length'
 
     N = len(input)
 
@@ -63,7 +64,8 @@ def NLMS(input, desired, mu=0.1, L=7):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(desired), 'Desired and input signals must have equal length'
+    assert len(input) == len(
+        desired), 'Desired and input signals must have equal length'
     N = len(input)
 
     w = np.zeros(L)
@@ -106,7 +108,8 @@ def NL_LMS(input, desired, mu, L, g, g_prime):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(desired), 'Desired and input signals must have equal length'
+    assert len(input) == len(
+        desired), 'Desired and input signals must have equal length'
 
     N = len(input)
 
