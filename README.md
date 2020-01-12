@@ -46,4 +46,21 @@ plt.title ('Low Shelf Filter')
 ```
 ![Pic](docs/examples/lowshelf.png)
 
-Further documentation coming soon...
+```python
+# Perform level detection
+from scipy.io import wavfile
+
+fs, x = wavfile.read('drums.wav')
+x = adsp.normalize(x[:,0]) # only take left channel, normalize
+plt.plot(x, label='input')
+
+for mode in ['peak', 'rms', 'analog']:
+    y = adsp.level_detect(x, fs, mode=mode)
+    plt.plot(y, label=mode)
+
+plt.title('Level Detection Example')
+plt.xlabel('Time [samples]')
+plt.legend()
+```
+
+![Pic](docs/examples/level_detect.png)

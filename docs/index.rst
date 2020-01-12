@@ -34,6 +34,7 @@ Tutorials
 * :doc:`/tutorials/ir_tutorial`
 * :doc:`/tutorials/nonlin_tutorial`
 * :doc:`/tutorials/modal_tutorial`
+* :doc:`/tutorials/level_detect_tutorial`
 
 Indices and tables
 ==================

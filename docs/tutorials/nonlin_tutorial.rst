@@ -1,8 +1,8 @@
 Nonlinear Processing
 ====================
 
-:code:`audio_dspy` currently supports two simple nonlinear processors,
-hard-clipping and soft-clipping nonlinearities, as well as useful
+:code:`audio_dspy` currently supports three simple nonlinear processors
+(hard-clipping, soft-clipping, and dropout nonlinearities), as well as useful
 plotting functions for visualizing the properties of a nonlinear system.
 
 Processing Audio

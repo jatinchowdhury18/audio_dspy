@@ -9,6 +9,7 @@ from .eq import *
 from .modal_tools import *
 from .delay_utils import *
 from .adaptive_filt import *
+from .level_detector import level_detect
 name = "audio_dspy"
 
 
