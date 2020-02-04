@@ -230,9 +230,9 @@ def find_complex_amplitudes(freqs, taus, T, x, fs):
     """
     num_modes = len(freqs)
     M = np.zeros((T, num_modes), dtype=np.complex128)
-    for n in range(T):
-        for m in range(num_modes):
-            M[n][m] = np.exp((-1.0/taus[m] + 1j*(2*np.pi*freqs[m]/fs))*n)
+    for m in range(num_modes):
+        M[:, m] = np.exp(
+            (-1.0/taus[m] + 1j*(2*np.pi*freqs[m]/fs))*np.arange(T))
 
     a, _, _, _ = np.linalg.lstsq(M, x[:T], rcond=None)
     return a
