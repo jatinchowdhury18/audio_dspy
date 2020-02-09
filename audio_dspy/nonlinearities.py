@@ -61,3 +61,41 @@ def dropout(x, width=0.5):
     return np.where(x > B, x - B + (B/width)**3,
                     np.where(x < -B, x + B - (B/width)**3,
                              (x/width)**3))
+
+
+def halfWaveRect(x):
+    """Implementation of an ideal half wave rectifier
+
+    Parameters
+    ----------
+    x: {float, ndarray}
+        input signal
+
+    Returns
+    -------
+    y: {float, ndarray}
+        output signal
+    """
+    return np.where(x < 0, 0, x)
+
+
+def diodeRect(x, alpha=1.79, beta=0.2):
+    """Implementation of a simple Schottky diode rectifier
+
+    Parameters
+    ----------
+    x: {float, ndarray}
+        input signal
+
+    alpha: float
+        input scale factor
+
+    beta: float
+        output scale factor
+
+    Returns
+    -------
+    y: {float, ndarray}
+        output signal
+    """
+    return beta * (np.exp(alpha*x) - 1.0)
