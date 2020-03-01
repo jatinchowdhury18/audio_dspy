@@ -48,8 +48,16 @@ class TestModal(TestCase):
         y = adsp.generate_modal_signal(
             amps, _freqs_, _taus_, _n_modes_, _N_, _fs_)
 
-        error = 0
-        for n in range(_N_):
-            error += np.abs(y[n] - self.sig[n])
+        error = np.sum(np.abs(y - self.sig))
         self.assertTrue(np.abs(error / _N_ < _tolerance_ * 10),
-                        'Incorrect comple amplitudes')
+                        'Incorrect complex amplitudes')
+
+    def test_different_sample_rates(self):
+        amps = adsp.find_complex_amplitudes(
+            _freqs_, _taus_, _N_, self.sig, _fs_)
+        y = adsp.generate_modal_signal(
+            amps, _freqs_, _taus_, _n_modes_, 2*_N_, 2*_fs_, fs_measure=_fs_)
+
+        error = np.sum(np.abs(y[::2] - self.sig))
+        self.assertTrue(np.abs(error / _N_ < _tolerance_ * 10),
+                        'Incorrect sample rate dependence')

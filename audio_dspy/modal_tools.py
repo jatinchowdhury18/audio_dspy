@@ -238,7 +238,7 @@ def find_complex_amplitudes(freqs, taus, T, x, fs):
     return a
 
 
-def design_modal_filter(amp, freq, tau, fs):
+def design_modal_filter(amp, freq, tau, fs, fs_measure=None):
     """
     Designs a modal filter for a modal model
 
@@ -252,6 +252,10 @@ def design_modal_filter(amp, freq, tau, fs):
         Decay rate of the mode [gain/sample]
     fs : float
         Sample rate
+    fs_measure: float, optional
+        The sample rate at which the measurements at which
+        the decay rates were measured. To use the same value
+        as fs, set to "None"
 
     Returns
     -------
@@ -260,6 +264,9 @@ def design_modal_filter(amp, freq, tau, fs):
     a : ndarray
         Feed-back filter coefficients
     """
+    if fs_measure is not None:
+        tau *= fs / fs_measure
+
     b = np.array([2.0*np.real(amp), -2.0 * np.exp(-1.0 / tau) *
                   np.real(amp * np.exp(-1j * (2 * np.pi * freq / fs))), 0.0])
     a = np.array([1.0, -2.0 * np.exp(-1.0 / tau) *
@@ -267,7 +274,7 @@ def design_modal_filter(amp, freq, tau, fs):
     return b, a
 
 
-def generate_modal_signal(amps, freqs, taus, num_modes, N, fs):
+def generate_modal_signal(amps, freqs, taus, num_modes, N, fs, fs_measure=None):
     """
     Generates a modal signal from modal model information
 
@@ -285,6 +292,10 @@ def generate_modal_signal(amps, freqs, taus, num_modes, N, fs):
         The length of the signal to generates [samples]
     fs : float
         The sample rate
+    fs_measure: float, optional
+        The sample rate at which the measurements at which
+        the decay rates were measured. To use the same value
+        as fs, set to "None"
     """
     assert num_modes == len(amps), 'Incorrect number of amplitudes'
     assert num_modes == len(freqs), 'Incorrect number of frequencies'
@@ -292,7 +303,8 @@ def generate_modal_signal(amps, freqs, taus, num_modes, N, fs):
 
     filts = []
     for n in range(num_modes):
-        b, a = design_modal_filter(amps[n], freqs[n], taus[n], fs)
+        b, a = design_modal_filter(
+            amps[n], freqs[n], taus[n], fs,  fs_measure=fs_measure)
         filts.append([b, a])
 
     imp = adsp.impulse(N)
