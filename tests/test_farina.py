@@ -121,4 +121,6 @@ class TestFarina(TestCase):
         far.process_measurement(meas)
         far_thd = far.getTHD()
 
-        self.assertTrue(True, f'Sine: {sine_thd}, Far: {far_thd}')
+        error = np.abs(far_thd - sine_thd)
+        self.assertTrue(
+            error < 0.1, f'Incorrect THD! Sine: {sine_thd}, Far: {far_thd}')

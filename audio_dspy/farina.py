@@ -108,12 +108,13 @@ class Farina:
         return self.get_harm_response(1)
 
     @_check_meas
-    def getTHD(self):
+    def getTHD(self, harms=9):
         """
         Returns the estimated total harmonic distortion for the system.
         """
-        rms_vals = np.zeros(len(self.harm_responses))
-        for idx, response in enumerate(self.harm_responses):
-            rms_vals[idx] = np.sqrt(np.mean(response**2))
-
+        rms_vals = np.zeros(harms)
+        for idx, response in enumerate(self.harm_responses[:harms]):
+            r_corr = signal.convolve(response, self.get_IR())
+            rms_vals[idx] = np.sqrt(np.mean(r_corr**2))
+        rms_vals /= rms_vals[0]
         return np.sqrt(np.sum(rms_vals[1:]**2)) / rms_vals[0]
