@@ -20,7 +20,7 @@ class TestSweeps(TestCase):
         sweep2 = adsp.sweep_lin(10, _fs_)
         h = adsp.sweep2ir(sweep, sweep2)
         self.assertTrue(self.diff_vs_imp(h) < _tolrance_,
-                        'Log Sweep response is not flat!')
+                        'Lin Sweep response is not flat!')
 
     def diff_vs_imp(self, h):
         test_h = np.zeros(len(h))

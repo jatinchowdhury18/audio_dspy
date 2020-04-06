@@ -30,11 +30,15 @@ def sweep_log(f0, f1, duration, fs):
     return np.cos((phase + phi)/fs)
 
 
-def sweep_lin(duration, fs):
+def sweep_lin(f0, f1, duration, fs):
     """Generates a linear sine sweep
 
     Parameters
     ----------
+    f0: float
+        The frequency [Hz] at which to begin the sine sweep
+    f1: float
+        The frequency [Hz] at which to stop the sine sweep
     duration: float
         The length of time [seconds] over which to sweep the signal
     fs: float
@@ -48,7 +52,7 @@ def sweep_lin(duration, fs):
     N = int(duration * fs)
     n = np.arange(N)
 
-    phase = 2 * np.pi * (((fs/2)/N) * n * n / 2)
+    phase = 2 * np.pi * (f0 * n + (((f1 - f0)/N) * n * n / 2))
     phi = np.pi / 180
 
     return np.cos((phase + phi)/fs)

@@ -10,6 +10,7 @@ from .modal_tools import *
 from .delay_utils import *
 from .adaptive_filt import *
 from .level_detector import level_detect
+from .farina import Farina
 name = "audio_dspy"
 
 
