@@ -16,8 +16,8 @@ class TestSweeps(TestCase):
                         'Log Sweep response is not flat!')
 
     def test_lin_sweep(self):
-        sweep = adsp.sweep_lin(10, _fs_)
-        sweep2 = adsp.sweep_lin(10, _fs_)
+        sweep = adsp.sweep_lin(0, _fs_/2, 10, _fs_)
+        sweep2 = adsp.sweep_lin(0, _fs_/2, 10, _fs_)
         h = adsp.sweep2ir(sweep, sweep2)
         self.assertTrue(self.diff_vs_imp(h) < _tolrance_,
                         'Lin Sweep response is not flat!')

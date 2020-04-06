@@ -4,8 +4,6 @@ import scipy.signal as signal
 
 import audio_dspy as adsp
 
-import matplotlib.pyplot as plt
-
 _fs_ = 44100
 
 
