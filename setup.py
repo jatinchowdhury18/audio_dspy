@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="audio_dspy",
-    version="0.0.3",
+    version="0.0.4",
     author="Jatin Chowdhury",
     author_email="jatin@ccrma.stanford.edu",
     description="A package for audio DSP tools",
