@@ -11,6 +11,7 @@ from .delay_utils import *
 from .adaptive_filt import *
 from .level_detector import level_detect
 from .farina import Farina
+from .hysteresis import Hysteresis
 name = "audio_dspy"
 
 
