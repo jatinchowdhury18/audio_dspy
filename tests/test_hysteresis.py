@@ -19,5 +19,11 @@ class TestHysteresis(TestCase):
         hysteresis2 = adsp.Hysteresis(1.0, 1.0, 1.0, _FS_, mode='RK2')
         y2 = hysteresis2.process_block(x)
 
+        hysteresis3 = adsp.Hysteresis(1.0, 1.0, 1.0, _FS_, mode='NR10')
+        y3 = hysteresis3.process_block(x)
+
         self.assertTrue(np.sum(np.abs(y - y2)) / _N_ < 5.0e-6,
-                        'Hysteresis response is incorrect!')
+                        'RK2 Hysteresis response is incorrect!')
+
+        self.assertTrue(np.sum(np.abs(y - y3)) / _N_ < 5.0e-6,
+                        'NR10 Hysteresis response is incorrect!')
