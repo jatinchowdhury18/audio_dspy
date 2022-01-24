@@ -24,7 +24,7 @@ def prony(x, nb, na):
     a : ndarray
         Feedback coefficients
     """
-    h = adsp.tf2minphase(x)
+    h = adsp.tf2minphase(x, False)
     k = len(h)-1
     H = np.mat(linalg.toeplitz(np.array(h), np.append([1], np.zeros(k))))
     H = H[:, 0:(na+1)]
@@ -116,7 +116,7 @@ def prony_warped(x, nb, na, rho):
     a : ndarray
         Feedback coefficients
     """
-    x = adsp.tf2minphase(x)
+    x = adsp.tf2minphase(x, False)
     x_warp = allpass_warp(rho, x)
     b_warped, a_warped = prony(x_warp, nb, na)
     b = allpass_warp_roots(-rho, b_warped)
