@@ -46,7 +46,7 @@ def tf2linphase(h, normalize=True):
     w = np.linspace(0, 2*np.pi, N)
     delay_kernels = np.exp(-1j*(N/2)*w)
     h_lin = np.real(np.fft.ifft(delay_kernels * np.abs(H)))
-    h_lin - np.mean(h_lin) # remove DC bias
+    h_lin = h_lin - np.mean(h_lin) # remove DC bias
 
     if normalize:
         h_lin = adsp.normalize(h_lin)
