@@ -1,13 +1,13 @@
 import numpy as np
 
 
-def LMS(input, desired, mu, L):
+def LMS(input_signal, desired, mu, L):
     """
     Performs LMS adpative filtering on input signal
 
     Parameters:
-    input : array-like
-        Input signa;
+    input_signal : array-like
+        Input signal
     desired : array-like
         Desired signal
     mu : float
@@ -23,10 +23,10 @@ def LMS(input, desired, mu, L):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(
+    assert len(input_signal) == len(
         desired), 'Desired and input signals must have equal length'
 
-    N = len(input)
+    N = len(input_signal)
 
     w = np.zeros(L)
     y = np.zeros(N)
@@ -34,7 +34,7 @@ def LMS(input, desired, mu, L):
     e = np.zeros(N)
 
     for n in range(N):
-        x_win = np.concatenate((x_win[1:L], [input[n]]))
+        x_win = np.concatenate((x_win[1:L], [input_signal[n]]))
         y[n] = np.dot(w, x_win)
         e[n] = desired[n] - y[n]
         w = w + mu * e[n] * x_win
@@ -42,13 +42,13 @@ def LMS(input, desired, mu, L):
     return y, e, w
 
 
-def NLMS(input, desired, mu=0.1, L=7):
+def NLMS(input_signal, desired, mu=0.1, L=7):
     """
     Performs Norm LMS adpative filtering on input signal
 
     Parameters:
-    input : array-like
-        Input signa;
+    input_signal : array-like
+        Input signal
     desired : array-like
         Desired signal
     mu : float
@@ -64,9 +64,9 @@ def NLMS(input, desired, mu=0.1, L=7):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(
+    assert len(input_signal) == len(
         desired), 'Desired and input signals must have equal length'
-    N = len(input)
+    N = len(input_signal)
 
     w = np.zeros(L)
     y = np.zeros(N)
@@ -74,7 +74,7 @@ def NLMS(input, desired, mu=0.1, L=7):
     e = np.zeros(N)
 
     for n in range(N):
-        x_win = np.concatenate((x_win[1:L], [input[n]]))
+        x_win = np.concatenate((x_win[1:L], [input_signal[n]]))
         y[n] = np.dot(w, x_win)
         e[n] = desired[n] - y[n]
         w = w + mu * e[n] * x_win / np.sqrt(np.sum(x_win**2))
@@ -82,13 +82,13 @@ def NLMS(input, desired, mu=0.1, L=7):
     return y, e, w
 
 
-def NL_LMS(input, desired, mu, L, g, g_prime):
+def NL_LMS(input_signal, desired, mu, L, g, g_prime):
     """
     Performs Nonlinear LMS adaptive filtering on input signal
 
     Parameters:
-    input : array-like
-        Input signa;
+    input_signal : array-like
+        Input signal
     desired : array-like
         Desired signal
     mu : float
@@ -108,10 +108,10 @@ def NL_LMS(input, desired, mu, L, g, g_prime):
     w : array-like
         Final filter coefficients (of length L)
     """
-    assert len(input) == len(
+    assert len(input_signal) == len(
         desired), 'Desired and input signals must have equal length'
 
-    N = len(input)
+    N = len(input_signal)
 
     w = np.zeros(L)
     y = np.zeros(N)
@@ -119,7 +119,7 @@ def NL_LMS(input, desired, mu, L, g, g_prime):
     e = np.zeros(N)
 
     for n in range(N):
-        x_win = np.concatenate((x_win[1:L], [input[n]]))
+        x_win = np.concatenate((x_win[1:L], [input_signal[n]]))
         y[n] = np.dot(w, x_win)
         e[n] = desired[n] - g(y[n])
         w = w + mu * e[n] * x_win * g_prime(y[n])
