@@ -272,6 +272,30 @@ class EQ:
 
         adsp.plot_freqz_mag(w, H_sum / len(self.filters))
 
+    def plot_eq_curve_phase(self, worN=512):
+        """
+        Plots the phase response of the EQ
+
+        worN: {None, int, array_like}, optional
+            If a single integer, then compute at that many frequencies (default is N=512).
+            If an array_like, compute the response at the frequencies given. These are in the same units as fs.
+        """
+        assert len(self.filters) > 0, 'Trying to plot an empty EQ!'
+
+        w, H = signal.freqz(
+            self.filters[0].b_coefs,
+            self.filters[0].a_coefs,
+            worN=worN,
+            fs=self.fs,
+        )
+
+        H_sum = np.zeros(len(H))
+        for filter in self.filters:
+            w, H = signal.freqz(filter.b_coefs, filter.a_coefs, worN=worN, fs=self.fs)
+            H_sum += np.abs(H)
+
+        adsp.plot_freqz_angle(w, H_sum / len(self.filters))
+
     def print_eq_info(self):
         """
         Print the specs of the EQ
