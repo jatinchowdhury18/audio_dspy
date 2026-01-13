@@ -6,7 +6,7 @@ import scipy.signal as signal
 class Filter:
     """
     A filter that was created with a function from the eq_design
-    module. Includes useful methods for processing, reseting,
+    module. Includes useful methods for processing, resetting,
     and plotting.
     """
 
@@ -97,7 +97,7 @@ class EQ:
     """
     An audio equalizer object. Functionally, this this object holds several filters
     all of which can be created with the eq_design module, and provides several useful
-    functions for interacting with them, including processing, reseting, and plotting.
+    functions for interacting with them, including processing, resetting, and plotting.
     """
 
     def __init__(self, fs):
