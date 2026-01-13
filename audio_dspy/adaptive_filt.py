@@ -3,7 +3,7 @@ import numpy as np
 
 def LMS(input_signal, desired, mu, L):
     """
-    Performs LMS adpative filtering on input signal
+    Performs LMS adaptive filtering on input signal
 
     Parameters:
     input_signal : array-like
@@ -44,7 +44,7 @@ def LMS(input_signal, desired, mu, L):
 
 def NLMS(input_signal, desired, mu=0.1, L=7):
     """
-    Performs Norm LMS adpative filtering on input signal
+    Performs Norm LMS adaptive filtering on input signal
 
     Parameters:
     input_signal : array-like

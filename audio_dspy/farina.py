@@ -44,7 +44,7 @@ class Farina:
         # @TEST: test that probe convolved with inverse has flat spectrum,
         # and impulse-like response
 
-        # determin times to look for harmonics
+        # determine times to look for harmonics
         self.far_response = None
         self.harm_times = [0]
         mult = 1

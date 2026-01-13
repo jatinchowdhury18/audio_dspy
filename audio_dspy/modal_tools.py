@@ -171,7 +171,7 @@ def find_decay_rates(freqs, x, fs, filt_width, thresh=-60, eta=0.01, plot=False)
         The threshold at which to stop fitting the decay rate [dB]
     eta : float, optional
         The speed of the filter to use to find the energy envelope of the mode
-    plot : bool, optiona;
+    plot : bool, optional
         Should plot the decay rate model for each mode
 
     Returns
@@ -221,7 +221,7 @@ def find_complex_amplitudes(freqs, taus, T, x, fs):
     x : ndarray
         The time domain signal to optimize for
     fs : float
-        The sampel rate of the time domain signal
+        The sample rate of the time domain signal
 
     Returns
     -------
